@@ -8,6 +8,12 @@
 </head>
 <body>
 
+<% flash.each do |key, value| %>
+  <p style='<%= key == :alert ? "color: red" : "" %>'>
+    <%= value %>
+  </p>
+<% end -%>
+
 <%= yield %>
 
 </body>

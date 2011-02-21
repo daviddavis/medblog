@@ -43,7 +43,7 @@ class PostsController < ApplicationController
     @post = Post.new(params[:post])
 
     respond_to do |format|
-      if @post.save
+      if check_spelling && @post.save
         format.html { redirect_to(@post, :notice => 'Post was successfully created.') }
         format.xml  { render :xml => @post, :status => :created, :location => @post }
       else
@@ -79,5 +79,17 @@ class PostsController < ApplicationController
       format.html { redirect_to(posts_url) }
       format.xml  { head :ok }
     end
+  end
+
+  def check_spelling
+    if session[:mispellings].any?
+      post = session[:mispellings]["post"]
+      post.each do |key, value|
+        next if value.length < 1
+        @post.errors.add(:base, "You mispelled '#{value.join("', '")}' in the #{key} field")
+      end
+      return @post.errors.empty?
+    end
+    return true
   end
 end

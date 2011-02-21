@@ -1,6 +1,5 @@
 module Rack
   class Spellcheck
-
     DICTIONARIES = "doc/en_US,doc/en_US_OpenMedSpel"
 
     def initialize(app, ignored_fields = nil)
